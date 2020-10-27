@@ -125,7 +125,10 @@ class RepoWatcher {
 	}
 
 	private resetHard() {
-		console.log('git reset --hard');
+		this.api.repositories.forEach(repo => {
+			repo.clean(repo.state.workingTreeChanges.map(ch => ch.uri.path));
+			repo.clean(repo.state.indexChanges.map(ch => ch.uri.path));
+		});
 	}
 }
 
